@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BME 2080 · Module 3 — Machine Learning in BME</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c12;
+    --panel: #111520;
+    --panel2: #161b2a;
+    --border: #1e2640;
+    --accent: #00e5ff;
+    --accent2: #7b5cf0;
+    --accent3: #ff6b6b;
+    --green: #39d98a;
+    --text: #e2e8f8;
+    --muted: #8e9ab8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* glowing orbs */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,92,240,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,12,18,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+  .nav-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 40px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border: 1px solid rgba(123,92,240,0.3);
+    background: rgba(123,92,240,0.07);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 8px var(--accent2);
+  }
+  .hero h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(32px, 5vw, 58px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 12px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 7px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0c12;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(0,229,255,0.25);
+  }
+  .btn-primary:hover {
+    background: #33ecff;
+    box-shadow: 0 0 30px rgba(0,229,255,0.4);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat { }
+  .stat-n {
+    font-family: 'Space Mono', monospace;
+    font-size: 26px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(20px, 3vw, 28px);
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+  h2 span { color: var(--accent); }
+  .section-intro {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 620px;
+    margin-bottom: 36px;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .about-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+  }
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+  }
+  .about-card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .about-card h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .about-card p { font-size: 13px; color: var(--muted); }
+
+  /* ── RESOURCES ── */
+  .resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .resource-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .resource-card:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+    background: var(--panel2);
+  }
+  .resource-card:hover .resource-arrow { color: var(--accent); transform: translateX(4px); }
+  .resource-icon {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .icon-cyan { background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); }
+  .icon-purple { background: rgba(123,92,240,0.1); border: 1px solid rgba(123,92,240,0.2); }
+  .icon-green { background: rgba(57,217,138,0.1); border: 1px solid rgba(57,217,138,0.2); }
+  .icon-red { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.2); }
+  .resource-info { flex: 1; }
+  .resource-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .resource-desc { font-size: 12px; color: var(--muted); }
+  .resource-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+  .badge-cyan { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
+  .badge-purple { background: rgba(123,92,240,0.1); color: var(--accent2); border: 1px solid rgba(123,92,240,0.2); }
+  .badge-green { background: rgba(57,217,138,0.1); color: var(--green); border: 1px solid rgba(57,217,138,0.2); }
+  .resource-arrow {
+    font-size: 16px;
+    color: var(--muted);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  /* ── TUTORIAL ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 20px; bottom: 20px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent2), var(--accent), transparent);
+  }
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 0 0 32px 0;
+    position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--panel2);
+    border: 1px solid var(--accent2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 12px rgba(123,92,240,0.2);
+  }
+  .step-content { padding-top: 8px; }
+  .step-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .step-desc { font-size: 13px; color: var(--muted); }
+  .step-desc code {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* ── LINKS ── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+  }
+  .link-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .link-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+    background: var(--panel2);
+  }
+  .link-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .link-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+  .link-card h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .link-card p { font-size: 12px; color: var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+  }
+  footer p { font-size: 11px; color: var(--muted); font-family: 'Space Mono', monospace; }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .section-divider hr {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="https://cr546-collab.github.io/bme2080-module3/">
+    <div class="nav-dot"></div>
+    <span class="nav-title">BME 2080 · Module 3</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#tutorial">Tutorial</a></li>
+    <li><a href="#links">Links</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">BME 2080 · Spring 2026</div>
+  <h1>Machine Learning<br>in <span>Biomedical Engineering</span></h1>
+  <p class="hero-sub">Module 3 resources, datasets, and interactive tools for exploring multi-omics cancer data.</p>
+  <div class="hero-actions">
+    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard.html" class="btn btn-primary">⬡ Launch Explorer</a>
+    <a href="#resources" class="btn btn-secondary">↓ View Resources</a>
+  </div>
+
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">About This Module</div>
+  <h2 class="reveal">What You'll <span>Explore</span></h2>
+  <p class="section-intro reveal">This module introduces machine learning approaches applied to real multi-omics cancer datasets. You'll work with RNA expression, protein expression, copy number variation, and drug response data across multiple cancer types.</p>
+  <div class="about-grid">
+    <div class="about-card reveal">
+      <div class="about-card-icon">🧬</div>
+      <h3>Multi-Omics Data</h3>
+      <p>Integrate RNA expression, protein levels, and copy number variation to understand how molecular features relate to cancer biology.</p>
+    </div>
+    <div class="about-card reveal">
+      <div class="about-card-icon">💊</div>
+      <h3>Drug Response</h3>
+      <p>Explore how genomic features predict response to 15 targeted cancer drugs, including EGFR, BRAF, PI3K, and JAK inhibitors.</p>
+    </div>
+    <div class="about-card reveal">
+      <div class="about-card-icon">📊</div>
+      <h3>Interactive Visualization</h3>
+      <p>Use the Multi-Omics Explorer to visualize relationships between variables, filter by cancer type, and generate scatter plots, heatmaps, and more.</p>
+    </div>
+    <div class="about-card reveal">
+      <div class="about-card-icon">🤖</div>
+      <h3>ML Applications</h3>
+      <p>Apply classification and regression models to predict drug sensitivity from molecular features — a core challenge in precision oncology.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="section-label reveal">Downloads</div>
+  <h2 class="reveal">Course <span>Resources</span></h2>
+  <p class="section-intro reveal">All materials needed for Module 3. Download the dataset and tools below.</p>
+  <div class="resource-list">
+    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard.html" class="resource-card reveal">
+      <div class="resource-icon icon-cyan">⬡</div>
+      <div class="resource-info">
+        <div class="resource-title">Multi-Omics Explorer</div>
+        <div class="resource-desc">Interactive dashboard for visualizing RNA, protein, copy number, and drug response data. Open directly in your browser — no installation required.</div>
+      </div>
+      <span class="resource-badge badge-cyan">HTML · Online</span>
+      <span class="resource-arrow">→</span>
+    </a>
+    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard_offline.html" class="resource-card reveal">
+      <div class="resource-icon icon-purple">📦</div>
+      <div class="resource-info">
+        <div class="resource-title">Multi-Omics Explorer (Offline)</div>
+        <div class="resource-desc">Same dashboard, works without internet. Place in the same folder as <code>d3.min.js</code> before opening.</div>
+      </div>
+      <span class="resource-badge badge-purple">HTML · Offline</span>
+      <span class="resource-arrow">→</span>
+    </a>
+    <a href="https://cr546-collab.github.io/bme2080-module3/teaching_multiomics_AUC_212lines.csv" class="resource-card reveal">
+      <div class="resource-icon icon-green">🗂</div>
+      <div class="resource-info">
+        <div class="resource-title">Multi-Omics Dataset</div>
+        <div class="resource-desc">CSV file containing 212 cancer cell lines with RNA expression (90 genes), protein expression (29), copy number (5), and drug response (15 drugs) across 7 cancer types.</div>
+      </div>
+      <span class="resource-badge badge-green">CSV · 212 rows</span>
+      <span class="resource-arrow">→</span>
+    </a>
+    <a href="https://cr546-collab.github.io/bme2080-module3/dataset_catalog.docx" class="resource-card reveal">
+      <div class="resource-icon icon-cyan">📋</div>
+      <div class="resource-info">
+        <div class="resource-title">Dataset Catalog</div>
+        <div class="resource-desc">Complete documentation of all cancer types, signaling pathways, genes, proteins, and drugs in the dataset — including biological annotations and peer-reviewed references.</div>
+      </div>
+      <span class="resource-badge badge-cyan">DOCX</span>
+      <span class="resource-arrow">→</span>
+    </a>
+    <a href="https://jakevdp.github.io/PythonDataScienceHandbook/index.html" target="_blank" class="resource-card reveal">
+      <div class="resource-icon icon-purple">📘</div>
+      <div class="resource-info">
+        <div class="resource-title">Python Data Science Handbook</div>
+        <div class="resource-desc">Free online book by Jake VanderPlas covering NumPy, pandas, Matplotlib, scikit-learn, and more. An essential reference for data science in Python.</div>
+      </div>
+      <span class="resource-badge badge-purple">Free · Online</span>
+      <span class="resource-arrow">→</span>
+    </a>
+    <a href="https://cr546-collab.github.io/bme2080-module3/Introduction_to_Machine_Learning_with_Python.pdf" class="resource-card reveal">
+      <div class="resource-icon icon-green">🤖</div>
+      <div class="resource-info">
+        <div class="resource-title">Introduction to Machine Learning with Python</div>
+        <div class="resource-desc">Müller & Guido — a practical introduction to ML using scikit-learn. Covers core algorithms including decision trees, random forests, and neural networks.</div>
+      </div>
+      <span class="resource-badge badge-green">PDF</span>
+      <span class="resource-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- TUTORIAL -->
+<section id="tutorial">
+  <div class="section-label reveal">How To Use</div>
+  <h2 class="reveal">Getting <span>Started</span></h2>
+  <p class="section-intro reveal">Follow these steps to open and use the Multi-Omics Explorer on your own machine.</p>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Download the Dashboard</div>
+        <div class="step-desc">Click <strong>Multi-Omics Explorer</strong> in the Resources section above. Your browser will download an <code>.html</code> file.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Open in Your Browser</div>
+        <div class="step-desc">Double-click the downloaded file. It will open in Chrome, Firefox, Safari, or Edge — no installation needed. If you're using the offline version, make sure <code>d3.min.js</code> is in the same folder.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Choose a Plot Type</div>
+        <div class="step-desc">Use the tabs on the left sidebar to switch between <strong>Scatter</strong>, <strong>Box</strong>, <strong>Heatmap</strong>, and <strong>Bar</strong> plot types.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Select Your Variables</div>
+        <div class="step-desc">Pick a data type (RNA, Protein, Drug Response, Copy Number) and a specific gene or drug for each axis. Try <code>exp_EGFR</code> vs <code>drug_Gefitinib</code> as a starting point.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Filter by Cancer Type</div>
+        <div class="step-desc">Toggle cancer type pills at the bottom of the sidebar to compare specific subsets. Click a pill to include or exclude that cancer type from the plot.</div>
+      </div>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">06</div>
+      <div class="step-content">
+        <div class="step-title">Hover for Details</div>
+        <div class="step-desc">Hover over any data point to see the cell line ID, cancer type, and exact values for both axes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"><hr></div>
+
+<!-- EXTERNAL LINKS -->
+<section id="links">
+  <div class="section-label reveal">External Resources</div>
+  <h2 class="reveal">Useful <span>Links</span></h2>
+  <p class="section-intro reveal">Background reading and tools to support your work in Module 3.</p>
+  <div class="links-grid">
+    <a href="https://depmap.org/portal/" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Database</span>
+        <span>↗</span>
+      </div>
+      <h4>DepMap Portal</h4>
+      <p>Source of the cancer dependency and multi-omics data used in this module.</p>
+    </a>
+    <a href="https://www.cancer.gov/about-cancer/understanding/what-is-cancer" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Background</span>
+        <span>↗</span>
+      </div>
+      <h4>NCI Cancer Overview</h4>
+      <p>Foundational reading on cancer biology from the National Cancer Institute.</p>
+    </a>
+    <a href="https://scikit-learn.org/stable/" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Tool</span>
+        <span>↗</span>
+      </div>
+      <h4>scikit-learn</h4>
+      <p>Python ML library used for classification, regression, and model evaluation.</p>
+    </a>
+    <a href="https://pandas.pydata.org/docs/" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Tool</span>
+        <span>↗</span>
+      </div>
+      <h4>pandas Documentation</h4>
+      <p>Reference for data manipulation and analysis in Python.</p>
+    </a>
+    <a href="https://www.nature.com/articles/s41586-019-1186-3" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Paper</span>
+        <span>↗</span>
+      </div>
+      <h4>DepMap Paper (Nature 2019)</h4>
+      <p>Key publication describing the DepMap project and its multi-omics approach.</p>
+    </a>
+    <a href="https://www.coursera.org/learn/machine-learning" target="_blank" class="link-card reveal">
+      <div class="link-card-top">
+        <span class="link-tag">Course</span>
+        <span>↗</span>
+      </div>
+      <h4>ML Foundations (Coursera)</h4>
+      <p>Andrew Ng's machine learning course for additional background on core concepts.</p>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>BME 2080 · Module 3 · Machine Learning in BME</p>
+  <p>Built with <a href="https://d3js.org">D3.js</a> · Hosted on <a href="https://github.com/cr546-collab/bme2080-module3">GitHub Pages</a></p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
