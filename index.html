@@ -504,17 +504,25 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="https://cr546-collab.github.io/bme2080-module3/">
+  <a class="nav-brand" href="#">
     <div class="nav-dot"></div>
     <span class="nav-title">BME 2080 · Module 3</span>
   </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#resources">Resources</a></li>
+    
     <li><a href="#tutorial">Tutorial</a></li>
-    <li><a href="#links">Links</a></li>
+        <li><a href="#links">Links</a></li>
   </ul>
 </nav>
+
+<header>
+  <div class="logo-dot"></div>
+  <h1>Multi-Omics Explorer</h1>
+  <span id="headerInfo">212 cell lines · 7 cancer types</span>
+</header>
+
 
 <!-- HERO -->
 <div class="hero">
@@ -522,7 +530,7 @@
   <h1>Machine Learning<br>in <span>Biomedical Engineering</span></h1>
   <p class="hero-sub">Module 3 resources, datasets, and interactive tools for exploring multi-omics cancer data.</p>
   <div class="hero-actions">
-    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard.html" class="btn btn-primary">⬡ Launch Explorer</a>
+    <a href="multiomics_dashboard.html" class="btn btn-primary">⬡ Launch Explorer</a>
     <a href="#resources" class="btn btn-secondary">↓ View Resources</a>
   </div>
 
@@ -532,12 +540,12 @@
 <section id="about">
   <div class="section-label reveal">About This Module</div>
   <h2 class="reveal">What You'll <span>Explore</span></h2>
-  <p class="section-intro reveal">This module introduces machine learning approaches applied to real multi-omics cancer datasets. You'll work with RNA expression, protein expression, copy number variation, and drug response data across multiple cancer types.</p>
+  <p class="section-intro reveal">This module introduces machine learning approaches applied to real multi-omics cancer datasets. You'll work with RNA expression, protein expression and drug response data across multiple cancer types.</p>
   <div class="about-grid">
     <div class="about-card reveal">
       <div class="about-card-icon">🧬</div>
       <h3>Multi-Omics Data</h3>
-      <p>Integrate RNA expression, protein levels, and copy number variation to understand how molecular features relate to cancer biology.</p>
+      <p>Integrate RNA expression and protein levels to understand how molecular features relate to cancer biology.</p>
     </div>
     <div class="about-card reveal">
       <div class="about-card-icon">💊</div>
@@ -565,62 +573,37 @@
   <h2 class="reveal">Course <span>Resources</span></h2>
   <p class="section-intro reveal">All materials needed for Module 3. Download the dataset and tools below.</p>
   <div class="resource-list">
-    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard.html" class="resource-card reveal">
+    <a href="multiomics_dashboard.html" class="resource-card reveal">
       <div class="resource-icon icon-cyan">⬡</div>
       <div class="resource-info">
         <div class="resource-title">Multi-Omics Explorer</div>
-        <div class="resource-desc">Interactive dashboard for visualizing RNA, protein, copy number, and drug response data. Open directly in your browser — no installation required.</div>
+        <div class="resource-desc">Interactive dashboard for visualizing RNA expression, protein expression, and drug response data. Open directly in your browser — no installation required.</div>
       </div>
       <span class="resource-badge badge-cyan">HTML · Online</span>
       <span class="resource-arrow">→</span>
     </a>
-    <a href="https://cr546-collab.github.io/bme2080-module3/multiomics_dashboard_offline.html" class="resource-card reveal">
-      <div class="resource-icon icon-purple">📦</div>
-      <div class="resource-info">
-        <div class="resource-title">Multi-Omics Explorer (Offline)</div>
-        <div class="resource-desc">Same dashboard, works without internet. Place in the same folder as <code>d3.min.js</code> before opening.</div>
-      </div>
-      <span class="resource-badge badge-purple">HTML · Offline</span>
-      <span class="resource-arrow">→</span>
-    </a>
-    <a href="https://cr546-collab.github.io/bme2080-module3/teaching_multiomics_AUC_212lines.csv" class="resource-card reveal">
+
+    <a href="teaching_multiomics_AUC_212lines.csv" class="resource-card reveal">
       <div class="resource-icon icon-green">🗂</div>
       <div class="resource-info">
         <div class="resource-title">Multi-Omics Dataset</div>
-        <div class="resource-desc">CSV file containing 212 cancer cell lines with RNA expression (90 genes), protein expression (29), copy number (5), and drug response (15 drugs) across 7 cancer types.</div>
+        <div class="resource-desc">CSV file containing 212 cancer cell lines with RNA expression (91 genes), protein expression (30 proteins), mutation status (15 genes), and drug response (15 drugs, AUC values) across 7 cancer types.</div>
       </div>
       <span class="resource-badge badge-green">CSV · 212 rows</span>
       <span class="resource-arrow">→</span>
     </a>
-    <a href="https://cr546-collab.github.io/bme2080-module3/dataset_catalog.docx" class="resource-card reveal">
-      <div class="resource-icon icon-cyan">📋</div>
+    <div class="resource-card reveal" style="opacity:0.45; cursor:not-allowed; pointer-events:none;">
+      <div class="resource-icon" style="background:rgba(90,101,128,0.1); border:1px solid rgba(90,101,128,0.2);">📋</div>
       <div class="resource-info">
-        <div class="resource-title">Dataset Catalog</div>
-        <div class="resource-desc">Complete documentation of all cancer types, signaling pathways, genes, proteins, and drugs in the dataset — including biological annotations and peer-reviewed references.</div>
+        <div class="resource-title">Dataset Documentation</div>
+        <div class="resource-desc">Cell line inventory, gene and protein annotations with pathway information, and drug descriptions. Coming soon.</div>
       </div>
-      <span class="resource-badge badge-cyan">DOCX</span>
-      <span class="resource-arrow">→</span>
-    </a>
-    <a href="https://jakevdp.github.io/PythonDataScienceHandbook/index.html" target="_blank" class="resource-card reveal">
-      <div class="resource-icon icon-purple">📘</div>
-      <div class="resource-info">
-        <div class="resource-title">Python Data Science Handbook</div>
-        <div class="resource-desc">Free online book by Jake VanderPlas covering NumPy, pandas, Matplotlib, scikit-learn, and more. An essential reference for data science in Python.</div>
-      </div>
-      <span class="resource-badge badge-purple">Free · Online</span>
-      <span class="resource-arrow">→</span>
-    </a>
-    <a href="https://cr546-collab.github.io/bme2080-module3/Introduction_to_Machine_Learning_with_Python.pdf" class="resource-card reveal">
-      <div class="resource-icon icon-green">🤖</div>
-      <div class="resource-info">
-        <div class="resource-title">Introduction to Machine Learning with Python</div>
-        <div class="resource-desc">Müller & Guido — a practical introduction to ML using scikit-learn. Covers core algorithms including decision trees, random forests, and neural networks.</div>
-      </div>
-      <span class="resource-badge badge-green">PDF</span>
-      <span class="resource-arrow">→</span>
-    </a>
+      <span class="resource-badge" style="background:rgba(90,101,128,0.1); color:#8e9ab8; border:1px solid rgba(90,101,128,0.2);">COMING SOON</span>
+    </div>
   </div>
 </section>
+
+<div class="section-divider"><hr></div>
 
 <div class="section-divider"><hr></div>
 
@@ -628,45 +611,31 @@
 <section id="tutorial">
   <div class="section-label reveal">How To Use</div>
   <h2 class="reveal">Getting <span>Started</span></h2>
-  <p class="section-intro reveal">Follow these steps to open and use the Multi-Omics Explorer on your own machine.</p>
+  <p class="section-intro reveal">Follow these steps to explore the Multi-Omics Explorer.</p>
   <div class="steps">
     <div class="step reveal">
       <div class="step-num">01</div>
-      <div class="step-content">
-        <div class="step-title">Download the Dashboard</div>
-        <div class="step-desc">Click <strong>Multi-Omics Explorer</strong> in the Resources section above. Your browser will download an <code>.html</code> file.</div>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">02</div>
-      <div class="step-content">
-        <div class="step-title">Open in Your Browser</div>
-        <div class="step-desc">Double-click the downloaded file. It will open in Chrome, Firefox, Safari, or Edge — no installation needed. If you're using the offline version, make sure <code>d3.min.js</code> is in the same folder.</div>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step-num">03</div>
       <div class="step-content">
         <div class="step-title">Choose a Plot Type</div>
         <div class="step-desc">Use the tabs on the left sidebar to switch between <strong>Scatter</strong>, <strong>Box</strong>, <strong>Heatmap</strong>, and <strong>Bar</strong> plot types.</div>
       </div>
     </div>
     <div class="step reveal">
-      <div class="step-num">04</div>
+      <div class="step-num">02</div>
       <div class="step-content">
         <div class="step-title">Select Your Variables</div>
-        <div class="step-desc">Pick a data type (RNA, Protein, Drug Response, Copy Number) and a specific gene or drug for each axis. Try <code>exp_EGFR</code> vs <code>drug_Gefitinib</code> as a starting point.</div>
+        <div class="step-desc">Pick a data type (RNA Expression, Protein Expression, or Drug Response) and a specific gene or drug for each axis. Try <code>exp_EGFR</code> vs <code>drug_Gefitinib</code> as a starting point.</div>
       </div>
     </div>
     <div class="step reveal">
-      <div class="step-num">05</div>
+      <div class="step-num">03</div>
       <div class="step-content">
         <div class="step-title">Filter by Cancer Type</div>
         <div class="step-desc">Toggle cancer type pills at the bottom of the sidebar to compare specific subsets. Click a pill to include or exclude that cancer type from the plot.</div>
       </div>
     </div>
     <div class="step reveal">
-      <div class="step-num">06</div>
+      <div class="step-num">04</div>
       <div class="step-content">
         <div class="step-title">Hover for Details</div>
         <div class="step-desc">Hover over any data point to see the cell line ID, cancer type, and exact values for both axes.</div>
@@ -677,70 +646,50 @@
 
 <div class="section-divider"><hr></div>
 
-<!-- EXTERNAL LINKS -->
+<!-- LINKS -->
 <section id="links">
   <div class="section-label reveal">External Resources</div>
   <h2 class="reveal">Useful <span>Links</span></h2>
   <p class="section-intro reveal">Background reading and tools to support your work in Module 3.</p>
   <div class="links-grid">
     <a href="https://depmap.org/portal/" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Database</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Database</span><span>↗</span></div>
       <h4>DepMap Portal</h4>
       <p>Source of the cancer dependency and multi-omics data used in this module.</p>
     </a>
     <a href="https://www.cancer.gov/about-cancer/understanding/what-is-cancer" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Background</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Background</span><span>↗</span></div>
       <h4>NCI Cancer Overview</h4>
       <p>Foundational reading on cancer biology from the National Cancer Institute.</p>
     </a>
     <a href="https://scikit-learn.org/stable/" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Tool</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Tool</span><span>↗</span></div>
       <h4>scikit-learn</h4>
       <p>Python ML library used for classification, regression, and model evaluation.</p>
     </a>
     <a href="https://pandas.pydata.org/docs/" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Tool</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Tool</span><span>↗</span></div>
       <h4>pandas Documentation</h4>
       <p>Reference for data manipulation and analysis in Python.</p>
     </a>
     <a href="https://www.nature.com/articles/s41586-019-1186-3" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Paper</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Paper</span><span>↗</span></div>
       <h4>DepMap Paper (Nature 2019)</h4>
       <p>Key publication describing the DepMap project and its multi-omics approach.</p>
     </a>
     <a href="https://www.coursera.org/learn/machine-learning" target="_blank" class="link-card reveal">
-      <div class="link-card-top">
-        <span class="link-tag">Course</span>
-        <span>↗</span>
-      </div>
+      <div class="link-card-top"><span class="link-tag">Course</span><span>↗</span></div>
       <h4>ML Foundations (Coursera)</h4>
       <p>Andrew Ng's machine learning course for additional background on core concepts.</p>
     </a>
   </div>
 </section>
-
 <footer>
-  <p>BME 2080 · Module 3 · Machine Learning in BME</p>
-  <p>Built with <a href="https://d3js.org">D3.js</a> · Hosted on <a href="https://github.com/cr546-collab/bme2080-module3">GitHub Pages</a></p>
+  <p>BME 2080 · Module 3 · Machine Learning in BME · Spring 2026</p>
+  <p>Built with <a href="https://d3js.org">D3.js</a> · Hosted on <a href="https://github.com/cr546-collab/bme2080-module3">GitHub</a></p>
 </footer>
 
 <script>
-  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
   }, { threshold: 0.1 });
