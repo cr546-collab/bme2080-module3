@@ -344,7 +344,6 @@
         <option value="exp">RNA Expression</option>
         <option value="prot">Protein Expression</option>
         <option value="drug">Drug Response</option>
-        <option value="cn">Copy Number</option>
       </select>
       <div class="panel-label" style="margin-top:10px">X Axis — Variable</div>
       <select id="xVar"></select>
@@ -356,7 +355,6 @@
         <option value="drug">Drug Response</option>
         <option value="exp">RNA Expression</option>
         <option value="prot">Protein Expression</option>
-        <option value="cn">Copy Number</option>
       </select>
       <div class="panel-label" style="margin-top:10px">Y Axis — Variable</div>
       <select id="yVar"></select>
@@ -434,7 +432,7 @@ const CANCER_COLORS = {
   "Skin": "#ff6b6b"
 };
 
-const PREFIX_LABEL = { exp: "RNA", prot: "Protein", drug: "Drug", cn: "CopyNum", mut: "Mutation" };
+const PREFIX_LABEL = { exp: "RNA", prot: "Protein", drug: "Drug", mut: "Mutation" };
 
 let activeCancers = new Set(Object.keys(CANCER_COLORS));
 let plotType = "scatter";
